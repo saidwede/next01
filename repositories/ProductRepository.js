@@ -97,12 +97,14 @@ class ProductRepository {
     }
 
     async getProductsByIds(payload) {
-        const reponse = await swell.products.get(payload).then((response) => {
-            console.log(response);
-            return response;
-            
-        })
-        .catch((error) => ({ error: JSON.stringify(error) }));
+        const reponse = Array();
+        for (let index = 0; index < payload.length; index++) {  
+            await swell.products.get(payload[index]).then((response) => {
+                reponse.push(response);
+                
+            })
+            .catch((error) => ({ error: JSON.stringify(error) }));          
+        }
         return reponse;
 
         /*const endPoint = `${baseDomain}/products?${payload}`;

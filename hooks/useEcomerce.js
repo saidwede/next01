@@ -21,13 +21,9 @@ export default function useEcomerce() {
         getProducts: async (payload, group = "") => {
             setLoading(true);
             if (payload && payload.length > 0) {
-                let queries = "";
+                let queries = Array();
                 payload.forEach((item) => {
-                    if (queries === "") {
-                        queries = `id_in=${item.id}`;
-                    } else {
-                        queries = queries + `&id_in=${item.id}`;
-                    }
+                    queries.push(item.id);
                 });
                 const responseData = await ProductRepository.getProductsByIds(
                     queries
@@ -89,6 +85,7 @@ export default function useEcomerce() {
         },
 
         addItem: (newItem, items, group) => {
+            console.log(items);
             let newItems = [];
             if (items) {
                 newItems = items;
