@@ -35,7 +35,7 @@ function getImageURL(source, size) {
         } else {
             image = source.url;
         }
-        imageURL = `${baseUrlProduct}${image}`;
+        imageURL = `${image}`;
     } else {
         imageURL = `/static/img/undefined-product-thumbnail.jpg`;
     }
@@ -46,18 +46,18 @@ export default function useProduct() {
     return {
         thumbnailImages: (payload) => {
             if (payload) {
-                if (payload.thumbnail) {
+                if (payload.images) {
                     return (
                         <>
                             <LazyLoad>
                                 <img
-                                    src={getImageURL(payload.thumbnail)}
+                                    src={getImageURL(payload.images[0].file)}
                                     alt=""
                                 />
                             </LazyLoad>
                             <LazyLoad>
                                 <img
-                                    src={getImageURL(payload.thumbnail)}
+                                    src={getImageURL(payload.images[0].file)}
                                     className="second"
                                     alt=""
                                 />

@@ -9,17 +9,6 @@ import useProductGroup from "~/hooks/useProductGroup";
 import ShopBestSellers from "~/components/partials/shop/ShopBestSellers";
 import { useRouter } from "next/router";
 
-const swell = require('swell-js');
-swell.init('wedecoderstore', 'pk_CCwetFMw91sXjj2yuy8NDfvkoth1sSXG');
-let result = "a";
-async function getMyProducts(){
-    result = JSON.stringify( await swell.products.list({
-        category: 'phone',
-        limit: 25,
-        page: 1
-    }));
-}
-
 const breadcrumb = [
     {
         id: 1,
@@ -46,7 +35,6 @@ const ShopScreen = () => {
         };
         getProducts(queries);
     }, []);
-
     if (productItems && productItems.length > 0) {
         if (query) {
             if (query.layout === "list") {
@@ -71,9 +59,9 @@ const ShopScreen = () => {
             products = withGrid(productItems, loading, 4);
         }
     }
-    getMyProducts();
     return (
         <Container title="Shop">
+           
             <div className="ps-page ps-page--shopping">
                 <div className="container">
                     <div className="ps-page__header">
