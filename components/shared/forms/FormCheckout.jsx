@@ -1,7 +1,7 @@
 import React from "react";
 import ModuleCheckoutSummary from "~/components/shared/forms/modules/ModuleCheckoutSummary";
 
-const FormCheckout = () => {
+const FormCheckout = (props) => {
     return (
         <form className="ps-form--checkout" action="/" method="get">
             <div className="ps-form__billings">
@@ -16,18 +16,20 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onFirstNameChange}
                             />
                         </div>
                     </div>
                     <div className="col-sm-6">
                         <div className="form-group">
                             <label>
-                                First Name <sup>*</sup>
+                                Last Name <sup>*</sup>
                             </label>
                             <input
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onLastNameChange}
                             />
                         </div>
                     </div>
@@ -38,6 +40,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onCompanyNameChange}
                             />
                         </div>
                     </div>
@@ -46,10 +49,10 @@ const FormCheckout = () => {
                             <label>
                                 Country <sup>*</sup>
                             </label>
-                            <select className="ps-select form-control">
-                                <option value="1">USA</option>
-                                <option value="2">England</option>
-                                <option value="3">Japan</option>
+                            <select className="ps-select form-control" onChange={props.onCountryChange} >
+                                <option value="USA">USA</option>
+                                <option value="England">England</option>
+                                <option value="Japan">Japan</option>
                             </select>
                         </div>
                     </div>
@@ -62,6 +65,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder="House number and street name"
+                                onChange={props.onStreetAddressChange}
                             />
                         </div>
                     </div>
@@ -72,6 +76,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder="Apartment, suite, unit etc. (optional)"
+                                onChange={props.onPostcodeChange}
                             />
                         </div>
                     </div>
@@ -84,6 +89,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onCityChange}
                             />
                         </div>
                     </div>
@@ -96,6 +102,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onEmailChange}
                             />
                         </div>
                     </div>
@@ -108,6 +115,7 @@ const FormCheckout = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder=""
+                                onChange={props.onPhoneChange}
                             />
                         </div>
                     </div>
@@ -148,7 +156,8 @@ const FormCheckout = () => {
                             <label>Order notes (optional)</label>
                             <textarea
                                 className="form-control"
-                                rows="6"></textarea>
+                                rows="6"
+                                onChange={props.onOrderNotesChange}></textarea>
                         </div>
                     </div>
                 </div>

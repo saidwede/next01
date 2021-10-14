@@ -3,12 +3,63 @@ import { connect } from "react-redux";
 import { calculateAmount } from "~/utilities/ecomerce-helpers";
 import useEcomerce from "~/hooks/useEcomerce";
 import Link from "next/link";
+import { useRouter } from 'next/router';
+const swell = require('swell-js');
+
+swell.init('sailfish-e-commerce-limited', 'pk_392OXy2LAsQCLz7F9EQHEQ5tnVhAak6x');
 
 const ModulEcomerceOrderSummary = ({ ecomerce }) => {
     const { products, getProducts } = useEcomerce();
     useEffect(() => {
         getProducts(ecomerce.cartItems, "cart");
     }, [ecomerce]);
+    const router = useRouter();
+    let ordering = false;
+    async function placeOrder(){
+        if(!ordering){
+            ordering = true;
+            console.log(ecomerce.cartItems);
+            await swell.cart.setItems([]);
+            for (let index = 0; index < ecomerce.cartItems.length; index++) {
+                await swell.cart.addItem({
+                    product_id: ecomerce.cartItems[index].id,
+                    quantity: ecomerce.cartItems[index].quantity,
+                }).then((cart) =>{
+                    //console.log(cart);
+                }).catch((error) => {console.log(JSON.stringify(error))});
+                
+            }
+            /*await swell.cart.setItems(ecomerce.cartItems).then((cart) =>{
+                console.log(cart);
+            }).catch((error) => {console.log(JSON.stringify(error))});*/
+    
+            await swell.cart.update({
+                shipping: {
+                  name: ecomerce.orderForm.firstName+" "+ecomerce.orderForm.lastName,
+                  address1: ecomerce.orderForm.streetAddress,
+                  address2: '',
+                  city: ecomerce.orderForm.city,
+                  state: '',
+                  zip: ecomerce.orderForm.postcode,
+                  country: ecomerce.orderForm.country,
+                  phone: ecomerce.orderForm.phone
+                },
+                account: {
+                    email: ecomerce.orderForm.email,
+                 // Optional; indicates the customer has consented to receive marketing emails
+                    // Optional; sets the customer's password if one doesn't exist yet
+                  }
+              }).then((cart) =>{
+                console.log(cart);
+            }).catch((error) => {console.log(JSON.stringify(error))});
+    
+            await swell.cart.submitOrder().then(() => {
+                console.log(cart);
+            }).catch((error) => {console.log(JSON.stringify(error))});
+            //ordering = false;
+            router.push('/shop/order-success');
+        }
+    }
 
     // Views
     let cartItemsView,
@@ -109,9 +160,7 @@ const ModulEcomerceOrderSummary = ({ ecomerce }) => {
                             </label>
                         </div>
                     </div>
-                    <Link href="/shop/order-success">
-                        <a className="ps-btn ps-btn--warning">Place order</a>
-                    </Link>
+                    <a className="ps-btn ps-btn--warning" onClick={placeOrder}>{ordering ? 'Wait...' : 'Place order'}</a>
                 </div>
             </div>
         </>
